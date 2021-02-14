@@ -1,103 +1,191 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
+
+// const makeEmployee = require('./src/makeEmployee')
 const htmlTemplate = require('./src/htmlTemplate.js');
 
+let team = [];
+let firstRun = true;
+
+
 const main = () => {
-    const getInfo = (firstTime) => {
-        inquirer
-            .prompt([
-                {
-                    name: 'employeeName',
-                    type: 'input',
-                    message: 'What is your name?',
-                    validate: employeeName => {
-                        if (employeeName) {
-                            return true;
-                        } else {
-                            console.log('No input detected.')
-                            return false;
-                        }
-                    }
-                },
-                {
-                    name: 'id',
-                    type: 'input',
-                    message: 'What is your ID number?',
-                    validate: (id) => {
-                        if (!isNaN(id)) {
-                            return true;
-                        } else {
-                            console.log(' - Not a number!');
-                            return false;
-                        }
-                    }
-                },
-                {
-                    name: 'email',
-                    type: 'input',
-                    message: 'What is your email address?',
-                    validate: email => {
-                        if (email) {
-                            return true;
-                        } else {
-                            console.log('No input detected.')
-                            return false;
-                        }
-                    }
-                },
-                {
-                    name: 'office',
-                    type: 'input',
-                    message: 'What is your office number?',
-                    validate: office => {
-                        if (office) {
-                            return true;
-                        } else {
-                            console.log('Invalid ID. Please enter a number.')
-                            return false;
-                        }
+    inquirer
+        .prompt([
+            {
+                name: 'employeeName',
+                type: 'input',
+                message: 'What is your name?',
+                validate: employeeName => {
+                    if (employeeName) {
+                        return true;
+                    } else {
+                        console.log('No input detected.')
+                        return false;
                     }
                 }
-            ])
-            .then((employeeName, id, email, office) => {
-                if (firstTime === true) {
-                    console.log('True!!!!');
-                    makeManager(employeeName, id, email, office);
-                    return
-                } else {
-                    inquirer
-                        .prompt(
-                            {
-                                name: 'selection',
+            },
+            {
+                name: 'id',
+                type: 'input',
+                message: 'What is your ID number?',
+                validate: (id) => {
+                    if (!isNaN(id)) {
+                        return true;
+                    } else {
+                        console.log(' - Not a number!');
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'email',
+                type: 'input',
+                message: 'What is your email address?',
+                validate: email => {
+                    if (email) {
+                        return true;
+                    } else {
+                        console.log('No input detected.')
+                        return false;
+                    }
+                }
+            }
+        ])
+        .then(({ employeeName, id, email }) => {
+            if (firstRun === true) {
+                firstRun = false;
+                inquirer
+                    .prompt(
+                        {
+                            name: 'officeNumber',
+                            type: 'input',
+                            message: 'What is your office number?'
+                        }
+                    )
+                    .then((officeNumber) => {
+                        let manager = new Manager(employeeName, id, email, officeNumber);
+                        team.push(manager);
+                        inquirer
+                            .prompt({
+                                name: 'menu',
                                 type: 'list',
-                                message: 'What addition to your team would you like to make?',
-                                choices: ['Engineer', 'Intern', 'Manager']
-                            }
-                        )
-                        .then((selection) => {
-                            if (selection === 'Engineer') {
-                                makeEngineer(employeeName, id, email, office);
-                            }
-                            if (selection === 'Intern') {
-                                makeIntern(employeeName, id, email, office);
-                            }
-                            if (selection === 'Manager') {
-                                makeManager(employeeName, id, email, office);
-                            }
-                        })
-                }
-            });
-    }
-
-    // Checks for first use. If yes, then asks for manager information.
-    if (!fs.existsSync('./dist/index.html')) {
-        getInfo(true);
-    } else {
-        getInfo(false);
-    }
-
-    // Creates the team dashboard webpage.
-    // fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                message: 'Main Menu - Please select an option',
+                                choices: ['Add a team member', 'Generate HTML file']
+                            })
+                            .then(({ menu }) => {
+                                if (menu === 'Add a team member') {
+                                    main();
+                                } else {
+                                    // Creates the team dashboard webpage.
+                                    fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                }
+                            })
+                    })
+            } else {
+                inquirer
+                    .prompt(
+                        {
+                            name: 'selection',
+                            type: 'list',
+                            message: 'What addition to your team would you like to make?',
+                            choices: ['Engineer', 'Intern', 'Manager']
+                        }
+                    )
+                    .then(({ selection }) => {
+                        if (selection === 'Engineer') {
+                            inquirer
+                                .prompt(
+                                    {
+                                        name: 'github',
+                                        type: 'input',
+                                        message: 'What is your GitHub username?'
+                                    }
+                                )
+                                .then((github) => {
+                                    let engineer = new Engineer(employeeName, id, email, github);
+                                    team.push(engineer);
+                                    inquirer
+                                        .prompt({
+                                            name: 'menu',
+                                            type: 'list',
+                                            message: 'Main Menu - Please select an option',
+                                            choices: ['Add a team member', 'Generate HTML file']
+                                        })
+                                        .then(({ menu }) => {
+                                            if (menu === 'Add a team member') {
+                                                main();
+                                            } else {
+                                                // Creates the team dashboard webpage.
+                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                            }
+                                        })
+                                })
+                        }
+                        if (selection === 'Intern') {
+                            inquirer
+                                .prompt(
+                                    {
+                                        name: 'school',
+                                        type: 'input',
+                                        message: 'What school did you attend?'
+                                    }
+                                )
+                                .then((school) => {
+                                    let intern = new Intern(employeeName, id, email, school);
+                                    team.push(intern);
+                                    inquirer
+                                        .prompt({
+                                            name: 'menu',
+                                            type: 'list',
+                                            message: 'Main Menu - Please select an option',
+                                            choices: ['Add a team member', 'Generate HTML file']
+                                        })
+                                        .then(({ menu }) => {
+                                            if (menu === 'Add a team member') {
+                                                main();
+                                            } else {
+                                                // Creates the team dashboard webpage.
+                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                            }
+                                        })
+                                })
+                        }
+                        if (selection === 'Manager') {
+                            inquirer
+                                .prompt(
+                                    {
+                                        name: 'officeNumber',
+                                        type: 'input',
+                                        message: 'What is your office number?'
+                                    }
+                                )
+                                .then((officeNumber) => {
+                                    let manager = new Manager(employeeName, id, email, officeNumber);
+                                    team.push(manager);
+                                    inquirer
+                                        .prompt({
+                                            name: 'menu',
+                                            type: 'list',
+                                            message: 'Main Menu - Please select an option',
+                                            choices: ['Add a team member', 'Generate HTML file']
+                                        })
+                                        .then(({ menu }) => {
+                                            if (menu === 'Add a team member') {
+                                                main();
+                                            } else {
+                                                // Creates the team dashboard webpage.
+                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                            }
+                                        })
+                                })
+                        }
+                    })
+            }
+        })
 }
 
 // Creates 'dist' folder if it does not already exist.
@@ -106,4 +194,6 @@ if (!fs.existsSync('./dist')) {
 }
 
 // Starts main program loop.
-main();
+main()
+
+
