@@ -13,7 +13,7 @@ const htmlTemplate = (teamString) => {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
-<body>
+<body class="ml-2 mr-2">
     <h1 class="text-center">Team Dashboard</h1>
 
     <div class="card-deck">

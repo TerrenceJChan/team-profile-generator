@@ -7,22 +7,22 @@ const makePage = (teamMembers) => {
     const employeeCards = (obj) => {
         console.log(obj);
         let role = obj.getRole();
-        let getExtraInfo;
+        let extraInfo;
         if (role === 'Intern') {
-            getExtraInfo = obj.school.school;
+            extraInfo = `School: ${obj.school.school}`;
         } else if (role === 'Engineer') {
-            getExtraInfo = `<a href="https://github.com/${obj.github.github}">GitHub Account - ${obj.github.github}</a>`;
+            extraInfo = `<a href="https://github.com/${obj.github.github}">GitHub Account - ${obj.github.github}</a>`;
         } else {
-            getExtraInfo = obj.officeNumber.officeNumber;
+            extraInfo = `Office Number: ${obj.officeNumber.officeNumber}`;
         }
 
         return `
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">${obj.employeeName}</h2>
-                    <p class="card-text">${role}</p>
-                    <p class="card-text">${obj.id}</p>
-                    <p class="card-text">${getExtraInfo}</p>
+                    <p class="card-text">Role: ${role}</p>
+                    <p class="card-text">ID Number: ${obj.id}</p>
+                    <p class="card-text">${extraInfo}</p>
                     <p class="card-text"><a href="mailto:${obj.email}">${obj.email}</a></p>
                 </div>
             </div>
