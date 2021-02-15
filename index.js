@@ -25,7 +25,7 @@ const main = () => {
                     if (employeeName) {
                         return true;
                     } else {
-                        console.log('No input detected.')
+                        console.log('No input detected')
                         return false;
                     }
                 }
