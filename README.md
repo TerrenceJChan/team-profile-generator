@@ -1,3 +1,4 @@
+# Team Profile Generator
 ![License Badge](https://img.shields.io/badge/License-Apache-green.svg)  
 Are you a manager of a team? Easily create a directory and visual dashboard to keep track of everyone's information!
 ## Table of Contents
