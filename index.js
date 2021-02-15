@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const emailValidate = require('email-validator');
 
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -47,12 +48,13 @@ const main = () => {
                 type: 'input',
                 message: 'What is your email address?',
                 validate: email => {
-                    if (email) {
+                    if (emailValidate.validate(email)) {
                         return true;
                     } else {
-                        console.log('No input detected.')
+                        console.log(" - Please enter a valid email")
                         return false;
                     }
+
                 }
             }
         ])
@@ -81,8 +83,8 @@ const main = () => {
                                 if (menu === 'Add a team member') {
                                     main();
                                 } else {
-                                     // Creates the team dashboard webpage.
-                                     makePage(team);
+                                    // Creates the team dashboard webpage.
+                                    makePage(team);
                                 }
                             })
                     })
