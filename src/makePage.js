@@ -1,9 +1,11 @@
 const fs = require('fs');
 const htmlTemplate = require('./htmlTemplate.js');
 
+// Generates HTML page.
 const makePage = (teamMembers) => {
     let teamString = "";
 
+    // EmployeeCards adds the variable team members to the body section of the HTML template.
     const employeeCards = (obj) => {
         console.log(obj);
         let role = obj.getRole();
@@ -16,6 +18,7 @@ const makePage = (teamMembers) => {
             extraInfo = `Office Number: ${obj.officeNumber.officeNumber}`;
         }
 
+        // Team members are added as Bootstrap cards.
         return `
             <div class="card">
                 <div class="card-body">
@@ -29,15 +32,14 @@ const makePage = (teamMembers) => {
         `
     }
 
+    // Creates a long string holding each team member's information to inject into the template.
     for (let i = 0; i < teamMembers.length; i++) {
         teamString = teamString + employeeCards(teamMembers[i]);
     }
 
+    // Creates or overwrites the HTML file.
     fs.writeFileSync("./dist/index.html", htmlTemplate(teamString));
     console.log('Page created in dist folder!');
 }
 
 module.exports = makePage;
-
-// // Creates the team dashboard webpage.
-// fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);

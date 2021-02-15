@@ -1,5 +1,7 @@
 const { builtinModules } = require("module");
 
+// This is the HTML template to be used. Bootstrap styling is used.
+// teamString is where each team member's information will be placed.
 const htmlTemplate = (teamString) => {
     return `
 <!DOCTYPE html>

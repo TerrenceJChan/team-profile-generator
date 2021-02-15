@@ -6,8 +6,6 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
-// const makeEmployee = require('./src/makeEmployee')
-// const htmlTemplate = require('./src/htmlTemplate.js');
 const makePage = require('./src/makePage.js');
 
 let team = [];
@@ -20,7 +18,7 @@ const main = () => {
             {
                 name: 'employeeName',
                 type: 'input',
-                message: 'What is your name?',
+                message: 'Employee name?',
                 validate: employeeName => {
                     if (employeeName) {
                         return true;
@@ -33,7 +31,7 @@ const main = () => {
             {
                 name: 'id',
                 type: 'input',
-                message: 'What is your ID number?',
+                message: 'Employee ID?',
                 validate: (id) => {
                     if (!isNaN(id)) {
                         return true;
@@ -46,7 +44,7 @@ const main = () => {
             {
                 name: 'email',
                 type: 'input',
-                message: 'What is your email address?',
+                message: 'Email?',
                 validate: email => {
                     if (emailValidate.validate(email)) {
                         return true;
@@ -58,6 +56,7 @@ const main = () => {
                 }
             }
         ])
+        // Runs if this is the first iteration.
         .then(({ employeeName, id, email }) => {
             if (firstRun === true) {
                 firstRun = false;
@@ -66,7 +65,7 @@ const main = () => {
                         {
                             name: 'officeNumber',
                             type: 'input',
-                            message: 'What is your office number?'
+                            message: 'Office number?'
                         }
                     )
                     .then((officeNumber) => {
@@ -89,15 +88,17 @@ const main = () => {
                             })
                     })
             } else {
+                // Allows the addition of other team members.
                 inquirer
                     .prompt(
                         {
                             name: 'selection',
                             type: 'list',
-                            message: 'What addition to your team would you like to make?',
+                            message: 'What is this member\'s role?',
                             choices: ['Engineer', 'Intern', 'Manager']
                         }
                     )
+                    // Adds Engineer
                     .then(({ selection }) => {
                         if (selection === 'Engineer') {
                             inquirer
@@ -105,7 +106,7 @@ const main = () => {
                                     {
                                         name: 'github',
                                         type: 'input',
-                                        message: 'What is your GitHub username?'
+                                        message: 'GitHub username?'
                                     }
                                 )
                                 .then((github) => {
@@ -128,13 +129,14 @@ const main = () => {
                                         })
                                 })
                         }
+                        // Adds Intern
                         if (selection === 'Intern') {
                             inquirer
                                 .prompt(
                                     {
                                         name: 'school',
                                         type: 'input',
-                                        message: 'What school did you attend?'
+                                        message: 'School?'
                                     }
                                 )
                                 .then((school) => {
@@ -157,13 +159,14 @@ const main = () => {
                                         })
                                 })
                         }
+                        // Adds Manager
                         if (selection === 'Manager') {
                             inquirer
                                 .prompt(
                                     {
                                         name: 'officeNumber',
                                         type: 'input',
-                                        message: 'What is your office number?'
+                                        message: 'Office number?'
                                     }
                                 )
                                 .then((officeNumber) => {
