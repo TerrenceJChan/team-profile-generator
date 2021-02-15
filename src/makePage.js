@@ -7,7 +7,6 @@ const makePage = (teamMembers) => {
 
     // EmployeeCards adds the variable team members to the body section of the HTML template.
     const employeeCards = (obj) => {
-        console.log(obj);
         let role = obj.getRole();
         let extraInfo;
         if (role === 'Intern') {
