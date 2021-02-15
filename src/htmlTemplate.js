@@ -1,6 +1,7 @@
 const { builtinModules } = require("module");
 
-const htmlString = `
+const htmlTemplate = (teamString) => {
+    return `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,14 +9,20 @@ const htmlString = `
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Profile Dashboard</title>
+    <title>Team Profile Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
-    <p>Hello World!</p>
+    <h1 class="text-center">Team Dashboard</h1>
+
+    <div class="card-deck">
+        ${teamString}
+    </div>
 </body>
 
 </html>
 `;
+}
 
-exports.htmlString = htmlString;
+module.exports = htmlTemplate;

@@ -6,7 +6,8 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 // const makeEmployee = require('./src/makeEmployee')
-const htmlTemplate = require('./src/htmlTemplate.js');
+// const htmlTemplate = require('./src/htmlTemplate.js');
+const makePage = require('./src/makePage.js');
 
 let team = [];
 let firstRun = true;
@@ -80,8 +81,8 @@ const main = () => {
                                 if (menu === 'Add a team member') {
                                     main();
                                 } else {
-                                    // Creates the team dashboard webpage.
-                                    fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                     // Creates the team dashboard webpage.
+                                     makePage(team);
                                 }
                             })
                     })
@@ -120,7 +121,7 @@ const main = () => {
                                                 main();
                                             } else {
                                                 // Creates the team dashboard webpage.
-                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                                makePage(team);
                                             }
                                         })
                                 })
@@ -149,7 +150,7 @@ const main = () => {
                                                 main();
                                             } else {
                                                 // Creates the team dashboard webpage.
-                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                                makePage(team);
                                             }
                                         })
                                 })
@@ -178,7 +179,7 @@ const main = () => {
                                                 main();
                                             } else {
                                                 // Creates the team dashboard webpage.
-                                                fs.writeFileSync("./dist/index.html", htmlTemplate.htmlString);
+                                                makePage(team);
                                             }
                                         })
                                 })
